@@ -1,5 +1,5 @@
 import BlogHero from '@/components/BlogHero';
-
+import CodeSnippet from '@/components/CodeSnippet';
 import { loadBlogPost } from '@/helpers/file-helpers';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { cache } from 'react';
@@ -26,7 +26,12 @@ export default async function BlogPost({params}) {
         publishedOn={frontmatter.publishedOn}
       />
       <div className={styles.page}>
-        <MDXRemote source={content} />
+        <MDXRemote
+         components={{
+           pre: CodeSnippet,
+         }}
+         source={content} 
+        />
       </div>
     </article>
   );
