@@ -8,8 +8,7 @@ import styles from './postSlug.module.css';
 const cachedLoadBlogPost = cache(loadBlogPost);
 
 export async function generateMetadata({ params }) {
-  const blogPost = await cachedLoadBlogPost(params.postSlug);
-  const { frontmatter } = blogPost;
+  const { frontmatter } = await cachedLoadBlogPost(params.postSlug);
 
   return {
     title: frontmatter.title,
@@ -18,8 +17,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function BlogPost({params}) {
-  const blogPost = await cachedLoadBlogPost(params.postSlug);
-  const { frontmatter, content } = blogPost;
+  const { frontmatter, content } = await cachedLoadBlogPost(params.postSlug);
 
   return (
     <article className={styles.wrapper}>
@@ -28,7 +26,7 @@ export default async function BlogPost({params}) {
         publishedOn={frontmatter.publishedOn}
       />
       <div className={styles.page}>
-        <MDXRemote  source={content} />
+        <MDXRemote source={content} />
       </div>
     </article>
   );
