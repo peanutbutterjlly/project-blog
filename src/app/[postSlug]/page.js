@@ -1,12 +1,9 @@
 import BlogHero from '@/components/BlogHero';
-import CodeSnippet from '@/components/CodeSnippet';
 import { loadBlogPost } from '@/helpers/file-helpers';
+import { MDX_COMPONENTS } from '@/helpers/mdx-components';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import dynamic from 'next/dynamic';
 import { cache } from 'react';
 import styles from './postSlug.module.css';
-
-const DivisionGroupsDemo = dynamic(() => import('../../components/DivisionGroupsDemo'));
 
 const cachedLoadBlogPost = cache(loadBlogPost);
 
@@ -24,18 +21,9 @@ export default async function BlogPost({params}) {
 
   return (
     <article className={styles.wrapper}>
-      <BlogHero
-        title={frontmatter.title}
-        publishedOn={frontmatter.publishedOn}
-      />
+      <BlogHero title={frontmatter.title} publishedOn={frontmatter.publishedOn} />
       <div className={styles.page}>
-        <MDXRemote
-         components={{
-           pre: CodeSnippet,
-           DivisionGroupsDemo,
-         }}
-         source={content} 
-        />
+        <MDXRemote components={MDX_COMPONENTS} source={content} />
       </div>
     </article>
   );
