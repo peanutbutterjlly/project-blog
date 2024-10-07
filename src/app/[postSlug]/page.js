@@ -2,8 +2,11 @@ import BlogHero from '@/components/BlogHero';
 import CodeSnippet from '@/components/CodeSnippet';
 import { loadBlogPost } from '@/helpers/file-helpers';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import dynamic from 'next/dynamic';
 import { cache } from 'react';
 import styles from './postSlug.module.css';
+
+const DivisionGroupsDemo = dynamic(() => import('../../components/DivisionGroupsDemo'));
 
 const cachedLoadBlogPost = cache(loadBlogPost);
 
@@ -29,6 +32,7 @@ export default async function BlogPost({params}) {
         <MDXRemote
          components={{
            pre: CodeSnippet,
+           DivisionGroupsDemo,
          }}
          source={content} 
         />
