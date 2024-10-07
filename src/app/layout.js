@@ -1,14 +1,14 @@
-import React from 'react';
-import {
-  Work_Sans,
-  Spline_Sans_Mono,
-} from 'next/font/google';
 import clsx from 'clsx';
+import {
+  Spline_Sans_Mono,
+  Work_Sans,
+} from 'next/font/google';
 
-import { LIGHT_TOKENS, DARK_TOKENS } from '@/constants';
+import { DARK_TOKENS, LIGHT_TOKENS } from '@/constants';
 
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import Providers from '@/components/Providers';
 import './styles.css';
 
 const mainFont = Work_Sans({
@@ -35,11 +35,13 @@ function RootLayout({ children }) {
       data-color-theme={theme}
       style={theme === 'light' ? LIGHT_TOKENS : DARK_TOKENS}
     >
-      <body>
-        <Header theme={theme} />
-        <main>{children}</main>
-        <Footer />
-      </body>
+      <Providers>
+        <body>
+          <Header theme={theme} />
+          <main>{children}</main>
+          <Footer />
+        </body>
+      </Providers>
     </html>
   );
 }
