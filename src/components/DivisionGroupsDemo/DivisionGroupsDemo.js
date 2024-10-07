@@ -24,6 +24,8 @@ function DivisionGroupsDemo({
     numOfItems / numOfGroups
   );
 
+  const totalNumInGroups = numOfGroups * numOfItemsPerGroup;
+
   const remainder = includeRemainderArea
     ? numOfItems % numOfGroups
     : null;
@@ -57,15 +59,19 @@ function DivisionGroupsDemo({
 
         <div className={styles.demoWrapper}>
           <div className={clsx(styles.demoArea)} style={gridStructure}>
-            {range(numOfGroups).map((groupIndex) => (
-              <div key={groupIndex} className={styles.group}>
-                {range(numOfItemsPerGroup).map((index) => {
-                  const prevGroup = groupIndex * numOfItemsPerGroup;
-                  const layoutId = `${id}-${prevGroup + index}`;
-                  return <motion.div layoutId={layoutId} key={layoutId} className={styles.item} />;
-                })}
-              </div>
-            ))}
+            {range(numOfGroups).map((groupIndex) => {
+              const totalInPrevGroups = groupIndex * numOfItemsPerGroup;
+              return (
+                <div key={groupIndex} className={styles.group}>
+                  {range(totalInPrevGroups, totalInPrevGroups + numOfItemsPerGroup).map((index) => {
+                    const layoutId = `${id}-${index}`;
+                    return (
+                      <motion.div layoutId={layoutId} key={layoutId} className={styles.item} />
+                    );
+                  })}
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -73,8 +79,15 @@ function DivisionGroupsDemo({
           <div className={styles.remainderArea}>
             <p className={styles.remainderHeading}>Remainder Area</p>
 
-            {range(remainder).map((index) => {
-              return <div key={index} className={styles.item} />;
+            {range(totalNumInGroups, numOfItems).reverse().map((index) => {
+              const layoutId = `${id}-${index}`;
+              return (
+                <motion.div
+                  layoutId={layoutId}
+                  key={layoutId}
+                  className={styles.item}
+                />
+              );
             })}
           </div>
         )}
