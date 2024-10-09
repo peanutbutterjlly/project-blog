@@ -5,6 +5,8 @@ import {
 } from 'next/font/google';
 
 import { DARK_TOKENS, LIGHT_TOKENS } from '@/constants';
+import { cookies } from 'next/headers';
+
 
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
@@ -25,19 +27,20 @@ const monoFont = Spline_Sans_Mono({
 });
 
 function RootLayout({ children }) {
-  // TODO: Dynamic theme depending on user preference
-  const theme = 'light';
+  const savedTheme = cookies().get('color-theme');
+  const theme = savedTheme?.value || 'light';
+  const themeColors = theme === 'light' ? LIGHT_TOKENS : DARK_TOKENS;
 
   return (
     <html
       lang="en"
       className={clsx(mainFont.variable, monoFont.variable)}
       data-color-theme={theme}
-      style={theme === 'light' ? LIGHT_TOKENS : DARK_TOKENS}
+      style={themeColors}
     >
       <Providers>
         <body>
-          <Header theme={theme} />
+          <Header initialTheme={theme} />
           <main>{children}</main>
           <Footer />
         </body>
