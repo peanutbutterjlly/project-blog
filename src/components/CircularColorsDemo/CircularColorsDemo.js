@@ -26,20 +26,22 @@ function CircularColorsDemo() {
   const id = useId();
 
   useEffect(() => {
+    if (!isPlaying) {
+      return;
+    }
+
     let intervalId;
 
-    if (isPlaying) {
-      function handleSetTime() {
-        const newTimeElapsed = timeElapsed + 1;
-        const newColorIndex = newTimeElapsed % COLORS.length;
-        setColorIdx(newColorIndex);
-        setTimeElapsed(newTimeElapsed);
-      }
-
-      intervalId = setInterval(handleSetTime, 1000);
-
-      return () => clearInterval(intervalId);
+    function handleSetTime() {
+      const newTimeElapsed = timeElapsed + 1;
+      const newColorIndex = newTimeElapsed % COLORS.length;
+      setColorIdx(newColorIndex);
+      setTimeElapsed(newTimeElapsed);
     }
+
+    intervalId = setInterval(handleSetTime, 1000);
+
+    return () => clearInterval(intervalId);
   }, [isPlaying, timeElapsed]);
 
   const selectedColor = COLORS[colorIdx];
@@ -54,7 +56,7 @@ function CircularColorsDemo() {
             <li layoutId={index} className={styles.color} key={index}>
               {isSelected && <div className={styles.selectedColorOutline} />}
               <motion.div
-                layoutId={`${id}-selected`}
+                layoutId={`${id}-selected-color-outline`}
                 className={clsx(styles.colorBox, isSelected && styles.selectedColorBox)}
                 style={{
                   backgroundColor: color.value,
